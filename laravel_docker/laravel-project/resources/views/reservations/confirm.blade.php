@@ -23,46 +23,33 @@
 
   <script>
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOMが読み込まれました - デバッグメッセージ'); // 確認用
-    
     const form = document.getElementById('reservationForm');
-    
-    if (!form) {
-        console.error('フォーム要素が見つかりません');
-        return;
-    }
     
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        console.log('フォーム送信がキャプチャされました'); // 確認用
         
-        // フォームデータの確認
-        const formData = new FormData(form);
-        for (let [key, value] of formData.entries()) {
-            console.log(key + ': ' + value);
-        }
-        
-        // 実際の送信処理（fetch API使用）
         fetch(form.action, {
             method: 'POST',
-            body: formData,
+            body: new FormData(form),
             headers: {
                 'Accept': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
             }
         })
         .then(response => {
-            console.log('レスポンスステータス:', response.status);
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
             return response.json();
         })
         .then(data => {
-            console.log('サーバー応答:', data);
-            // リダイレクトが必要な場合
             if (data.redirect) {
                 window.location.href = data.redirect;
             }
         })
-        .catch(error => console.error('エラー:', error));
+        .catch(error => {
+            alert(error.error || '予約処理中にエラーが発生しました');
+        });
     });
 });
 </script>

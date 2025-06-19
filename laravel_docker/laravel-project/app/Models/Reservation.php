@@ -17,6 +17,12 @@ class Reservation extends Model
         'status',
     ];
 
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+        // 他の日付フィールドがあれば追加
+    ];
+
     // 必要に応じてリレーションも定義（例）
     public function user()
     {
