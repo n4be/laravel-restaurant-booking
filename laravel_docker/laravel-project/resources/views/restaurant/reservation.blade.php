@@ -20,23 +20,46 @@
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var restaurantId = @json($restaurant_id);
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridWeek',
-                locale: 'ja',
-                height: 'auto',
-                firstDay: 1,
-                headerToolbar: {
-                    left: "dayGridMonth,listMonth",
-                    center: "title",
-                    right: "today prev,next"
-                },
-                slotDuration: '00:30:00',
-                slotMinTime: "10:00:00",
-                slotMaxTime: "24:00:00",
-                events: '/reservations/events?restaurant_id=' + restaurantId,
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var restaurantId = @json($restaurant_id);
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridWeek',
+        locale: 'ja',
+        height: 'auto',
+        firstDay: 1,
+        headerToolbar: {
+            left: "dayGridMonth,listMonth",
+            center: "title",
+            right: "today prev,next"
+        },
+        slotDuration: '01:00:00', // 1時間単位に変更
+        slotMinTime: "10:00:00",
+        slotMaxTime: "24:00:00",
+        events: function (fetchInfo, successCallback, failureCallback) {
+            fetch('/reservations/events?restaurant_id=' + restaurantId +
+                '&start=' + fetchInfo.start.toISOString() +
+                '&end=' + fetchInfo.end.toISOString())
+                .then(response => response.json())
+                .then(data => {
+                    // 現在時刻以降の予約のみ表示
+                    var now = new Date();
+                    var filteredData = data.filter(function(event) {
+                        return new Date(event.start) >= now || event.title === '×';
+                    });
+                    successCallback(filteredData);
+                })
+                .catch(error => failureCallback(error));
+        },
+                eventSources: [
+                    {
+                        url: '/reservations/events?restaurant_id=' + restaurantId,
+                        method: 'GET',
+                        extraParams: {
+                            refresh: @json(request()->has('refresh') ? 1 : 0)
+                        }
+                    }
+                ],
                 eventDisplay: 'block',
                 allDaySlot: false,
                 eventTimeFormat: {
@@ -62,22 +85,22 @@
                 eventContent: function (arg) {
                     return { html: `<div class="fc-event-symbol">${arg.event.title}</div>` };
                 },
-                listDayFormat: { 
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-    },
-    listDaySideFormat: false, // 日付表示を非表示
-    eventContent: function(arg) {
-        return {
-            html: `<div class="flex items-center">
-                <span class="mr-2">${arg.event.title}</span>
-                <span class="text-sm">
-                    ${arg.timeText}
-                </span>
-            </div>`
-        };
-    },
+                listDayFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                },
+                listDaySideFormat: false, // 日付表示を非表示
+            //     eventContent: function (arg) {
+            //         return {
+            //             html: `<div class="flex items-center">
+            //     <span class="mr-2">${arg.event.title}</span>
+            //     <span class="text-sm">
+            //         ${arg.timeText}
+            //     </span>
+            // </div>`
+            //         };
+            //     },
                 nowIndicator: true,
                 navLinks: true,
                 eventClick: function (info) {
@@ -101,7 +124,9 @@
                     month: '月',
                     list: 'リスト'
                 },
-                @if(request()->has('refresh'))
+                // 成功メッセージ表示
+                @if(session('success'))
+                    alert('{{ session('success') }}');
                     calendar.refetchEvents();
                 @endif
                 noEventsContent: 'スケジュールはありません',
@@ -158,12 +183,13 @@
         }
 
         /* リスト表示調整 */
-.fc-list-event {
-    padding: 8px 10px;
-}
-.fc-list-event-time {
-    font-size: 14px;
-    margin-left: 10px;
-}
+        .fc-list-event {
+            padding: 8px 10px;
+        }
+
+        .fc-list-event-time {
+            font-size: 14px;
+            margin-left: 10px;
+        }
     </style>
 </x-app-layout>
