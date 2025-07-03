@@ -109,6 +109,15 @@ return [
             'throttle' => 60,
         ],
 
+        // 追加
+        'admins' => [
+            'provider' => 'admins',
+            // セキュリティは別として、password_reset_tokensと共用でも動きはする模様
+            'table' => 'admin_password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
     ],
 
     /*

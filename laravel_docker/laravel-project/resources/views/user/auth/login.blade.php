@@ -1,8 +1,8 @@
-<x-admin-guest-layout>
+<x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('admin.login') }}">
+    <form method="POST" action="{{ route('user.login') }}">
         @csrf
 
         <!-- Email Address -->
@@ -34,7 +34,7 @@
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('admin.password.request') }}">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('user.password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
@@ -46,6 +46,10 @@
     </form>
 
 
-</x-admin-guest-layout>
+
+
+    <div style="width:50%; margin:2rem auto;"><button class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-50"><span class="absolute h-0 w-0 rounded-full bg-blue-500 transition-all duration-300 group-hover:h-56 group-hover:w-42"></span><span class="relative"><a href="{{ route('filament.admin.auth.login') }}">管理者の方はこちら</a></span></button></div>
+
+</x-guest-layout>
 
 
