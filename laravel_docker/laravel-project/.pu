@@ -1,0 +1,43 @@
+@startuml
+hide circle
+skinparam linetype ortho
+
+entity "retaurant" as restaurant {
+id
+--
+name
+image
+' **optional bold attribute**
+' * **mandatory bold attribute**
+}
+
+entity "user" as user {
+id
+name
+}
+
+entity "admin" as admin {
+id
+name
+}
+
+entity "menus" as menus {
+id
+restaurant_id
+name
+description
+price
+}
+
+entity "reservations" as reservations {
+id
+restaurant_id
+name
+}
+
+
+restaurant ||--|{ admin
+restaurant ||--|{ menus
+restaurant ||--|{ reservations
+reservations ||--|{ user
+@enduml

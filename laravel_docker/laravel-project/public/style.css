@@ -1,0 +1,121 @@
+/* index */
+ul.horizontal-list {
+  overflow-x: auto;
+  display: flex;
+  gap: 40px;
+  width: 90%;
+  margin: 50px auto;
+  padding: 40px 40px;
+}
+
+li.item {
+  flex: 0 0 25%;
+  background-color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  box-shadow: 3px 4px 7px 0px #000;
+  border-radius: 5px;
+}
+
+li .name {
+  font-size: clamp(1.3rem, 2.5vw, 1.4rem);
+}
+
+li .description {
+  font-size: 0.9rem;
+  min-height: 80px;
+  color: #4d4d4d;
+  overflow-wrap: break-word;
+}
+
+.shop-detail {
+  padding: 15px 10px 0 15px;
+}
+
+.area {
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #0c22cc, #0c22ccc9, #0c22ccf7);
+  padding: 5px 15px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.item {
+  transition: 0.3s ease;
+}
+
+.reserve {
+  background: #53c03c;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  display: block;
+  text-align: center;
+  border-radius: 15px;
+  margin: 10px 0;
+}
+
+.item:hover {
+  transform: scale(1.05);
+  box-shadow: 4px 4px 8px 3px #000000;
+}
+
+/* show */
+
+.form-button {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.form-button button:hover {
+  opacity: 0.6;
+}
+
+.button-edit {
+  background: linear-gradient(90deg, #2c63ff, #002898, #002792);
+  color: white;
+  transition: 0.3s;
+}
+
+.button-delete {
+  background: linear-gradient(90deg, #ff2c2c, #da2c2c, #e02121);
+  color: white;
+  transition: 0.3s;
+}
+
+button {
+  border: 1px solid;
+  padding: 5px 20px !important;
+  border-radius: 10px;
+}
+
+.menu-container {
+  text-align: center;
+  width: 600px;
+  margin: 50px auto;
+  padding-bottom: 20px;
+  /* border: 2px solid #b6b4b4; */
+}
+
+.menu-container h2 {
+  font-size: 20px !important;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+
+.menu-container table {
+  border: 1px solid;
+  /* padding: 10px; */
+  width: 400px;
+  margin: 0 auto;
+}
+
+.menu-container table tr:nth-child(1) {
+  border-bottom: 1px solid;
+}

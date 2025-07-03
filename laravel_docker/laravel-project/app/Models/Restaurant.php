@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Restaurant extends Model
 {
@@ -25,4 +26,9 @@ class Restaurant extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function menus(): HasMany
+{
+    return $this->hasMany(Menu::class);
+}
 }

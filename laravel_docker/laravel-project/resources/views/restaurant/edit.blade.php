@@ -37,5 +37,9 @@
         </form>
     </div>
 
+    <div class="link-block">
+        <a href="{{ route('restaurant.show', $restaurant) }}">詳細に戻る</a>
+    </div>
+
 </x-app-layout>
 

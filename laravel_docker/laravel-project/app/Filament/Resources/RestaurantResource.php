@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\MenuResource;
+use App\Filament\Resources\RestaurantResource\RelationManagers\MenusRelationManager;
 
 class RestaurantResource extends Resource
 {
@@ -57,7 +59,7 @@ class RestaurantResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+        MenusRelationManager::class,
         ];
     }
 

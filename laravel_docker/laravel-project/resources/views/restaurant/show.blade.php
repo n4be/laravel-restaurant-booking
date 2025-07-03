@@ -12,26 +12,52 @@
     <div class="my-8 text-4xl text-center">{{ $restaurant->name }}</div>
     <div>{{ $restaurant->description }}</div>
   </div>
-
-  <div class="text-center mb-5">
-    <a href="{{ route('restaurant.edit', ['id' => $restaurant->id]) }}">
-      <button
-        class="bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-4 py-2">編集</button>
+<!-- 
+  @auth
+    <div class="form-button">
+    <a href="{{ route('restaurant.edit', $restaurant)}}">
+      <button class="button-edit">編集</button>
     </a>
-  </div>
 
-  <div class="text-center">
-    <form action="{{ route('restaurant.destroy', ['id' => $restaurant->id]) }}" method="post">
+    <form action="{{ route('restaurant.destroy', $restaurant) }}" method="post" id="deleteForm">
       @csrf
-      <button type="submit"
-        class="bg-gradient-to-br from-red-300 to-red-800 hover:bg-gradient-to-tl text-white rounded px-4 py-2">削除</button>
+      @method('DELETE')
+      <button type="submit" class="button-delete">削除</button>
     </form>
+    </div>
+  @endauth -->
+
+  <div class="menu-container">
+    <h2>メニュー一覧</h2>
+    <table>
+      <tr>
+        <th>メニュー名</th>
+        <th>料金</th>
+      </tr>
+      @forelse($restaurant->menus as $menu)
+      <tr>
+      <td>{{ $menu->name }}</td>
+      <td>{{ $menu->price }}円</td>
+  @empty
+        メニューが登録されていません
+        </tr>
+      @endforelse
+    </table>
   </div>
 
-
-
-
-
-
+  <script>
+    'use strict'
+    {
+      const deleteform = document.querySelector('#deleteForm');
+      console.log(deleteform);
+      deleteform.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (confirm('Sure?') === false) {
+          return;
+        }
+        deleteform.submit();
+      });
+    }
+  </script>
 
 </x-app-layout>

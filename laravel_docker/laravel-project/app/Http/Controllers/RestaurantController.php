@@ -13,7 +13,7 @@ class RestaurantController extends Controller
     public function index()
     {
         $restaurants = Restaurant::all();
-        $restaurants = Restaurant::orderBy('created_at', 'desc')->get();
+        $restaurants = Restaurant::latest()->get();
         return response()->view('restaurant.index', compact('restaurants')); // 最新順に表示
     }
 
@@ -32,6 +32,7 @@ class RestaurantController extends Controller
             'description' => 'required',
             'image' => 'nullable|image'
         ]);
+
         $restaurant = new Restaurant;
         $restaurant->user_id = Auth::id();
         $restaurant->name = $request->name;
@@ -39,7 +40,10 @@ class RestaurantController extends Controller
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('restaurant_images', 'public');
-            $restaurant->image = $imagePath; // 保存した画像パスを保存
+            $restaurant->image = $imagePath;
+        } else {
+            $imagePath = 'restaurant_images/comingsoon.webp';
+            $restaurant->image = $imagePath;
         }
 
 
@@ -51,13 +55,12 @@ class RestaurantController extends Controller
         Log::debug('保存結果: ' . ($result ? '成功' : '失敗'));
         Log::debug('画像パス: ' . $imagePath ); // => storage/app/public/images/xxx.jpg になるはず
 
-        return redirect(route('restaurant.create'))->with('success', '登録が完了しました');
+        return redirect(route('restaurant.index'))->with('success', '登録が完了しました');
     }
 
-    public function show($id)
+    public function show(Restaurant $restaurant)
     {
-        $restaurant = Restaurant::find($id);
-        return view('restaurant.show', compact('restaurant'));
+        return view('restaurant.show')->with(['restaurant' => $restaurant]);
     }
 
     public function destroy($id)
