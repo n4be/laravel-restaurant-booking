@@ -49,15 +49,15 @@ Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name(
 Route::post('/restaurant/store', [RestaurantController::class, 'store'])->name('restaurant.store');
 Route::get('/restaurant/show/{restaurant}', [RestaurantController::class, 'show'])->name('restaurant.show');
 Route::delete('/restaurant/destroy/{id}', [RestaurantController::class, 'destroy'])->name('restaurant.destroy');
-Route::get('/restaurant/edit/{id}', [RestaurantController::class, 'edit'])->name('restaurant.edit');
-Route::post('/restaurant/update/{id}', [RestaurantController::class, 'update'])->name('restaurant.update');
+Route::get('/restaurant/edit/{restaurant}', [RestaurantController::class, 'edit'])->name('restaurant.edit');
+Route::patch('/restaurant/update/{restaurant}', [RestaurantController::class, 'update'])->name('restaurant.update');
+
 Route::get('/restaurant/reservation/{id}', [ReservationController::class, 'showReservation'])->name('showReservation');
 Route::get('/reservations/events', [ReservationController::class, 'getEvents']);
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store')->middleware('auth');;
 Route::get('/reservations/confirm', [ReservationController::class, 'confirm'])->name('reservations.confirm');
 
-//メニュー
-Route::resource('restaurants.menus', MenuController::class)->only('store', 'destroy');
+Route::resource('restaurant.menu', MenuController::class);
 
 // require __DIR__.'/auth.php';
 // require __DIR__.'/admin.php';

@@ -1,12 +1,12 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('レストランを登録する') }}
-        </h2>
+<x-admin-app-layout>
+    <x-slot name="pageTitle">
+        <header class="d-flex border-bottom pb-3 align-items-center">
+            <h2 class="m-0 fs-4">レストランを登録する</h2>
+        </header>
     </x-slot>
 
 
-    <div class="md:w-1/4 mx-auto">
+    <div class="container">
         <form method="POST" action="{{ route('restaurant.store') }}" enctype="multipart/form-data">
             @csrf
             <div>
@@ -29,13 +29,14 @@
                         name="image">
                 </div>
                 <div class="flex items-center justify-center my-4">
-                    <button class="group flex h-10 items-center justify-center rounded-md border border-gray-600 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600 px-4 text-neutral-50 shadow-[inset_0_1px_0px_0px_#d1d5db] hover:bg-gradient-to-b hover:from-gray-600 hover:via-gray-600 hover:to-gray-600 active:[box-shadow:none]" type="submit"><span class="block group-active:[transform:translate3d(0,1px,0)]">
-                        登録する
-                    </span></button>
+                    <button
+                        class="group flex h-10 items-center justify-center rounded-md border border-gray-600 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600 px-4 text-neutral-50 shadow-[inset_0_1px_0px_0px_#d1d5db] hover:bg-gradient-to-b hover:from-gray-600 hover:via-gray-600 hover:to-gray-600 active:[box-shadow:none]"
+                        type="submit"><span class="block group-active:[transform:translate3d(0,1px,0)]">
+                            登録する
+                        </span></button>
                 </div>
             </div>
         </form>
     </div>
 
-</x-app-layout>
-
+</x-admin-app-layout>

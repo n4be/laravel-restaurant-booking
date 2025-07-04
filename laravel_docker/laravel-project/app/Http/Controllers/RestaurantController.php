@@ -14,7 +14,7 @@ class RestaurantController extends Controller
     {
         $restaurants = Restaurant::all();
         $restaurants = Restaurant::latest()->get();
-        return response()->view('restaurant.index', compact('restaurants')); // 最新順に表示
+        return response()->view('restaurant.index', compact('restaurants'));
     }
 
     public function create()
@@ -24,9 +24,6 @@ class RestaurantController extends Controller
 
     public function store(Request $request)
     {
-        Log::debug('storeメソッド開始'); // ログ出力
-
-        // $user_id = Auth::id();
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -45,16 +42,7 @@ class RestaurantController extends Controller
             $imagePath = 'restaurant_images/comingsoon.webp';
             $restaurant->image = $imagePath;
         }
-
-
-        Log::debug('保存前: ', $restaurant->toArray());
-
         $restaurant->save();
-
-        $result = $restaurant->save();
-        Log::debug('保存結果: ' . ($result ? '成功' : '失敗'));
-        Log::debug('画像パス: ' . $imagePath ); // => storage/app/public/images/xxx.jpg になるはず
-
         return redirect(route('restaurant.index'))->with('success', '登録が完了しました');
     }
 
@@ -67,16 +55,15 @@ class RestaurantController extends Controller
     {
         $restaurant = Restaurant::find($id);
         $restaurant->delete();
-        return redirect(route('restaurant.index'));
+        return redirect(route('restaurant.index'))->with('success', 'レストランを削除しました');
     }
 
-    public function edit($id)
+    public function edit(Restaurant $restaurant)
     {
-        $restaurant = Restaurant::find($id);
         return view('restaurant.edit', compact('restaurant'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Restaurant $restaurant)
     {
         $request->validate([
             'name' => 'required',
@@ -84,15 +71,21 @@ class RestaurantController extends Controller
             'image' => 'nullable|image'
         ]);
 
-        $restaurant = Restaurant::find($id);
         $restaurant->user_id = Auth::id();
         $restaurant->name = $request->name;
         $restaurant->description = $request->description;
 
-        dd($restaurant);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('restaurant_images', 'public');
+            $restaurant->image = $imagePath;
+        } else {
+            $imagePath = 'restaurant_images/comingsoon.webp';
+            $restaurant->image = $imagePath;
+        }
+
         $restaurant->save();
-dd();
-        return redirect()->route('restaurant.show', ['id' => $id])->with('success', '商品を更新しました');
+
+        return redirect()->route('restaurant.show', $restaurant)->with('success', 'レストラン情報を更新しました');
     }
 
     public function reservation($id)

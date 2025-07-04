@@ -1,43 +1,121 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        
-        <!-- CSS -->
-        <link rel="stylesheet" href="{{ url('style.css') }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.admin.navigation')
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url('style.css') }}">
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-            <div class="text-center">
-                <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 my-14"><a href="{{ route('restaurant.index') }}">TOPに戻る</a></button>
-                
-            </div>
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+
+</head>
+
+<body>
+
+    <header class="container text-center bg-primary p-4 d-flex align-items-center">
+        <h1 class="text-light">Restaurant</h1>
+        <div class="ms-auto">
+            <nav class="d-flex align-items-center">
+                <a href="{{ route('admin.profile.edit') }}" class="text-light me-3">
+                    <i class="bi bi-person-circle text-light me-1"></i>
+                    {{ Auth::guard('admin')->user()->name }}
+                </a>
+                <form action="{{ route('admin.logout') }}" method="post">
+                    @csrf
+                    <button class="btn btn-light">ログアウト</button>
+                </form>
+            </nav>
         </div>
-    </body>
+    </header>
+
+    <section class="container mt-5">
+        <section class="row">
+            <section class="col-md-3">
+                <div class="list-group">
+                    <a href="{{ route('restaurant.index') }}" class="list-group-item list-group-item-action active"
+                        aria-current="true">
+                        レストラン一覧
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">メニュー管理</a>
+                    <a href="#" class="list-group-item list-group-item-action">予約状況</a>
+                    <a href="#" class="list-group-item list-group-item-action">管理者を登録する</a>
+                </div>
+            </section>
+            <section class="col-md-9 mt-3">
+                <main>
+                    @isset($pageTitle)
+                        {{ $pageTitle }}
+                    @else
+
+                    @endisset
+                    <!-- <header class="d-flex border-bottom pb-3 align-items-center">
+                        <h2 class="m-0 fs-4">レストラン一覧</h2>
+                        <button type="button" class="btn btn-primary ms-auto">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            追加
+                        </button>
+                    </header> -->
+
+                    @if (session('success'))
+                        <div class="alert alert-success text-center mt-3">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    {{ $slot }}
+                </main>
+            </section>
+        </section>
+    </section>
+
+
+    <footer class="bg-secondary p-5 mt-5 text-center text-light">
+        (c) XXXXX.inc
+    </footer>
+
+
+    <!-- @isset($header)
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endisset -->
+
+    <!-- <main>
+            {{ $slot }}
+        </main> -->
+    <!-- <div class="text-center">
+            <button type="button" class="btn btn-info">
+                <a href="{{ route('restaurant.index') }}">
+                    TOPに戻る
+                </a>
+            </button>
+        </div> -->
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
 </html>

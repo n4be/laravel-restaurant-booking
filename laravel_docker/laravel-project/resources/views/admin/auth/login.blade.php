@@ -2,6 +2,10 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <x-slot name="title">
+        <h1>ログイン(管理者)</h1>
+    </x-slot>
+
     <form method="POST" action="{{ route('admin.login') }}">
         @csrf
 

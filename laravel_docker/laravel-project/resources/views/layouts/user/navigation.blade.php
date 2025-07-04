@@ -21,11 +21,6 @@
                         {{ __('レストラン一覧') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('restaurant.create')" :active="request()->routeIs('restaurant.create')">
-                        {{ __('レストランを登録する') }}
-                    </x-nav-link>
-                </div>
             </div>
 
             <!-- Settings Dropdown -->
