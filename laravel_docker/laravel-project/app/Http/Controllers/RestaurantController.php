@@ -31,6 +31,10 @@ class RestaurantController extends Controller
             'image' => 'nullable|image'
         ]);
 
+        if(auth()->user()->role !== 'admin'){
+            abort(403);
+        }
+
         $restaurant = new Restaurant;
         $restaurant->user_id = Auth::id();
         $restaurant->name = $request->name;

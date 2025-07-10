@@ -140,11 +140,6 @@ class ReservationController extends Controller
     public function index()
     {
 
-        dd([
-    'auth_user' => auth()->user(),
-    'auth_guard' => auth()->getDefaultDriver(),
-    'restaurants' => auth()->user()->restaurants ?? null
-]);
         // ログインしているユーザー（レストランオーナー）のレストランを取得
         $restaurant = auth()->user()->restaurants;
         dd($restaurant);
