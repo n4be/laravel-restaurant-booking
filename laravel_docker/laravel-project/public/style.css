@@ -1,4 +1,18 @@
+
+html {
+  position: relative;
+  box-sizing: border-box;
+  padding-bottom: 120px;
+  min-height: 100vh;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 /* index */
+
 ul.horizontal-list {
   overflow-x: auto;
   display: flex;

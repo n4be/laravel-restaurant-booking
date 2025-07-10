@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
+use App\Models\Menu;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -48,7 +49,8 @@ class RestaurantController extends Controller
 
     public function show(Restaurant $restaurant)
     {
-        return view('restaurant.show')->with(['restaurant' => $restaurant]);
+        $menu = $restaurant->menu;
+        return view('restaurant.show', compact('restaurant', 'menu'));
     }
 
     public function destroy($id)
@@ -71,7 +73,6 @@ class RestaurantController extends Controller
             'image' => 'nullable|image'
         ]);
 
-        $restaurant->user_id = Auth::id();
         $restaurant->name = $request->name;
         $restaurant->description = $request->description;
 

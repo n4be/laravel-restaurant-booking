@@ -57,7 +57,14 @@ Route::get('/reservations/events', [ReservationController::class, 'getEvents']);
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store')->middleware('auth');;
 Route::get('/reservations/confirm', [ReservationController::class, 'confirm'])->name('reservations.confirm');
 
+Route::get('reservations/index',[ReservationController::class, 'index'])->name('reservations.index');
+
 Route::resource('restaurant.menu', MenuController::class);
+
+// 予約機能のMVP
+// Route::prefix('mvp')->group(function() {
+//     Route::resource('/reservations', \App\Http\Controllers\MVP\ReservationController::class);
+// });
 
 // require __DIR__.'/auth.php';
 // require __DIR__.'/admin.php';

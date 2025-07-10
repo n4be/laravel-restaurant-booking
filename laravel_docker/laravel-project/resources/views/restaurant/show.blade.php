@@ -10,7 +10,7 @@
       <h2 class="m-0 fs-4">レストラン詳細</h2>
       @auth('admin')
       <div class="form-button ms-auto">
-      <a href="{{ route('restaurant.edit', $restaurant)}}">
+      <a href="{{ route('restaurant.edit', [$restaurant, $menu])}}">
         <button class="button-edit">編集</button>
       </a>
 
@@ -24,15 +24,41 @@
     </header>
   </x-slot>
 
-  <div class="w-1/3 mx-auto my-10">
-    <img src="{{ asset('storage/' . ($restaurant->image ? $restaurant->image : 'restaurant_images/comingsoon.webp')) }}"
-      alt="{{ $restaurant->name }}" class="img-fluid"
-      style="max-width: 100%; max-height: 400px; object-fit: contain; margin:0 auto;">
-    <div class="my-8 text-4xl text-center">{{ $restaurant->name }}</div>
-    <div>{{ $restaurant->description }}</div>
-  </div>
+
+  <section class="container">
+    <div class="row my-5">
+      <div class="col-sm-5 my-3">
+            <img src="{{ asset('storage/' . ($restaurant->image ? $restaurant->image : 'restaurant_images/comingsoon.webp')) }}"
+      alt="{{ $restaurant->name }}" class="img-thumbnail">
+      </div>
+      <div class="col-sm-7">
+<table class="table table-bordered">
+    <thead>
+  </thead>
+  <tbody>
+    <tr>
+      <th class="col-3 text-center">店舗名</th>
+      <td class="col-9">{{ $restaurant->name }}</td>
+    </tr>
+    <tr>
+      <th class="col-3 text-center">エリア</th>
+      <td>-</td>
+    </tr>
+    <tr>
+      <th class="col-3 text-center">営業時間</th>
+      <td>-</td>
+    </tr>
+    <tr>
+      <th class="col-3 text-center">説明</th>
+      <td>{{ $restaurant->description }}</td>
+    </tr>
+  </tbody>
+</table>
+      </div>
 
 
+    </div>
+  </section>
 
   <div class="container">
     <header class="d-flex border-bottom pb-3 align-items-center">
@@ -55,15 +81,21 @@
       </thead>
       <tbody>
         @forelse($restaurant->menus as $menu)
-        <tr>
+      <tr>
         <td>{{ $menu->name }}</td>
         <td>{{ $menu->price }}円</td>
-        <td>編集</td>
+        <td>
+          <button type="button" class="btn btn-success">
+            <a href="{{ route('restaurant.menu.edit', [$restaurant, $menu]) }}" class="text-light text-decoration-none">
+              編集
+            </a>
+          </button>
+        </td>
         <td>削除</td>
-      @empty
-        メニューが登録されていません
       </tr>
-      @endforelse
+      @empty
+      <p class="text-center my-3">メニューが登録されていません</p>
+    @endforelse
       </tbody>
     </table>
     <!-- <table>

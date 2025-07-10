@@ -17,23 +17,27 @@
     </header>
   </x-slot>
 
-  <ul class="horizontal-list">
-    @foreach ($restaurants as $restaurant)
-    <li class="item">
-      <a href="{{ route('restaurant.show', $restaurant) }}">
-      <img
+  <div class="container">
+    <div class="row mt-5">
+      @foreach($restaurants as $restaurant)
+      <div class="col-md-6 col-xl-4 mb-3">
+      <div class="card" style="width: 18em;">
+        <img
         src="{{ asset('storage/' . ($restaurant->image ? $restaurant->image : 'restaurant_images/comingsoon.webp')) }}"
-        alt="{{ $restaurant->name }}" class="img-fluid"
-        style="max-width: 100%; max-height: 150px; object-fit: contain; margin:0 auto;">
-      <div class="shop-detail">
-        <div class="area">大阪</div>
-        <div class="name">{{ $restaurant->name }}</div>
-        <div class="description">{{ $restaurant->description }}</div>
+        class="card-img-top" alt="{{ $restaurant->name }}">
+        <div class="card-body">
+        <a href="{{ route('restaurant.show', $restaurant) }}">
+          <h5 class="card-title">{{ $restaurant->name }}</h5>
+        </a>
+        <p class="card-text">{{ $restaurant->description }}</p>
+        </div>
       </div>
-      <a class="reserve" href="{{ route('showReservation', ['id' => $restaurant->id]) }}">予約する</a>
-      </a>
-    </li>
-  @endforeach
-  </ul>
+      </div>
+    @endforeach
+    </div>
+  </div>
+
+
+
 
 </x-auth-layout>

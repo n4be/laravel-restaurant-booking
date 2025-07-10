@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="  position: relative;
+  box-sizing: border-box;
+  padding-bottom: 120px;
+  min-height: 100vh;">
 
 <head>
     <meta charset="utf-8">
@@ -53,7 +56,7 @@
                         レストラン一覧
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">メニュー管理</a>
-                    <a href="#" class="list-group-item list-group-item-action">予約状況</a>
+                    <a href="{{ route('reservations.index') }}" class="list-group-item list-group-item-action">予約状況</a>
                     <a href="#" class="list-group-item list-group-item-action">管理者を登録する</a>
                 </div>
             </section>
@@ -85,29 +88,14 @@
     </section>
 
 
-    <footer class="bg-secondary p-5 mt-5 text-center text-light">
+    <footer class="bg-secondary p-5 mt-5 text-center text-light" style="  position: absolute;
+  bottom: 0;
+  width: 100%;">
         (c) XXXXX.inc
     </footer>
 
 
-    <!-- @isset($header)
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset -->
 
-    <!-- <main>
-            {{ $slot }}
-        </main> -->
-    <!-- <div class="text-center">
-            <button type="button" class="btn btn-info">
-                <a href="{{ route('restaurant.index') }}">
-                    TOPに戻る
-                </a>
-            </button>
-        </div> -->
 
 
 

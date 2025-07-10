@@ -10,6 +10,8 @@ use Illuminate\Notifications\Notifiable;
 use App\Notifications\CustomResetPassword;
 use App\Notifications\CustomVerifyEmail;
 
+use App\Models\Restaurant;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -59,4 +61,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new CustomVerifyEmail());
     }
+
+public function restaurants() {
+    return $this->hasMany(Restaurant::class, 'user_id');
+}
+
 }
